@@ -1,0 +1,9 @@
+#!/bin/sh
+
+alias bb="$GUI_EDITOR src/application/modules/base src/application src ."
+alias bc="$GUI_EDITOR src/js/components preview src/scss/ src/js src ."
+alias base="cd src/application/modules/base"
+
+function tailc() {
+    tail $@ | perl -pe 's/.*\bNotice\b.*/\e[0;32;40m$&\e[0m/g; s/.*\bFatal\b.*/\e[0;31;40m$&\e[0m/g; s/.*\bParse\b.*/\e[0;36;40m$&\e[0m/g; s/.*\bWarning\b.*/\e[0;33;40m$&\e[0m/g; s/.*\bCatchable\b.*/\e[0;35;40m$&\e[0m/g; s/.*\bNOTICE\b.*/\e[0;32;40m$&\e[0m/g; s/.*\bALERT\b.*/\e[0;37;41m$&\e[0m/g; s/.*\bEMERG\b.*/\e[0;36;40m$&\e[0m/g; s/.*\bWARN\b.*/\e[0;33;40m$&\e[0m/g; s/.*\bINFO\b.*/\e[0;35;40m$&\e[0m/g; s/.*\bDEBUG\b.*/\e[0;34;40m$&\e[0m/g; s/.*\bERR\b.*/\e[0;31;40m$&\e[0m/g; s/.*\b404\b.*/\e[0;31;40m$&\e[0m/g; s/.*\bIMPORTANT\b.*/\e[0;33;40m$&\e[0m/g; s/.*\bERROR\b.*/\e[0;37;41m$&\e[0m/g;'
+}

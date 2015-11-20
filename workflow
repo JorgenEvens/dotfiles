@@ -1,0 +1,25 @@
+#!/bin/sh
+
+switch() {
+	local CURRENT
+	local TARGET
+	local TMP
+
+	CURRENT="$1"
+	TARGET="$2"
+
+	test -z "$CURRENT" && CURRENT="local"
+	test -z "$TARGET" && TARGET="upstream"
+
+	TMP="$CURRENT"
+
+	test -z "`pwd | grep \"/$CURRENT\"`" && CURRENT="upstream"
+	test "$CURRENT" = "$TARGET" && TARGET="$TMP"
+
+	cd "$CURRENT" "$TARGET" > /dev/null
+}
+
+# Goto project
+w() {
+	cd ~/workspace/$1
+}

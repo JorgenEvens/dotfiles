@@ -1,0 +1,76 @@
+#!/bin/sh
+
+EOL="
+"
+
+# SPRINTER_REPOS=`tr "$EOL" "," << EOF
+# user/repo,
+# user/repo2
+# EOF
+# `
+# export SPRINTER_REPOS=${SPRINTER_REPOS:0:-1}
+
+function sprint() {
+	sprinter listIssues --milestone=sprint-$(date +"%Y-%V")
+}
+
+function mysprint() {
+	sprinter listIssues --milestone=sprint-$(date +"%Y-%V") --assignee="$GH_USERNAME"
+}
+
+function watchsprint() {
+	INTERVAL=30
+	test ! -z $1 && INTERVAL=$1
+	if [ "$MILESTONE" != "no" ]; then
+		test -z "$MILESTONE" && MILESTONE=sprint-$(date +"%Y-%V")
+		MILESTONE="--milestone=$MILESTONE"
+	else
+		MILESTONE=""
+	fi
+	watch --color -n$INTERVAL sprinter listIssues "$MILESTONE" --assignee="$GH_USERNAME"
+}
+
+function devsprint() {
+   sprint | grep -B 1 -A 2 "in progress" | sed '/^--$/d'
+}
+
+gensprint() {
+	local COUNT
+	local DAYOFWEEK
+	local DUE_SHIFT
+	local WEEK_SHIFT
+	local DATE
+	local WEEK
+	local YEAR
+
+	COUNT="$1"
+	DAYOFWEEK=$((`date +%u` - 1))
+	test -z "$COUNT" && COUNT=5 # How many weeks to generate
+
+	for i in $(seq 0 $COUNT); do
+		# Set milestone due date on monday
+		DUE_SHIFT="$(((i+1)*7 - DAYOFWEEK))"
+		WEEK_SHIFT="$((i*7 - DAYOFWEEK))"
+
+		# If the today's date should be shifted backwards for this weeks monday.
+		OPERATOR="+"
+		test $DUE_SHIFT -lt 0 && OPERATOR=""
+		DUE_SHIFT="${OPERATOR}${DUE_SHIFT}d"
+
+		OPERATOR="+"
+		test $WEEK_SHIFT -lt 0 && OPERATOR=""
+		WEEK_SHIFT="${OPERATOR}${WEEK_SHIFT}d"
+
+		# Generate sprint name
+		DATE="`date -v${DUE_SHIFT} '+%b %d, %Y'`"
+		YEAR=`date -v${WEEK_SHIFT} +%Y`
+		WEEK=`date -v${WEEK_SHIFT} +%V`
+		echo -n "sprint-${YEAR}-${WEEK} => "
+		sprinter createMilestones "sprint-${YEAR}-${WEEK}" "" "${DATE}" 2>&1 | grep error > /dev/null
+		if [ $? -eq 1 ]; then
+			echo OK
+		else
+			echo ERROR
+		fi
+	done
+}

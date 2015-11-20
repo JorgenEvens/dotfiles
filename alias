@@ -1,0 +1,34 @@
+#!/bin/sh
+
+export CLOSURE_PATH="/usr/local/opt/closure-compiler/libexec"
+export ANDROID_HOME=/usr/local/opt/android-sdk
+export GUI_EDITOR="atom"
+
+alias gw="grunt watch"
+alias dev="wl && gw"
+alias edit="$GUI_EDITOR src ."
+alias gocc="closure-compiler"
+alias vi="vim"
+
+alias HEAD="curl -D - -X GET -o /dev/null"
+alias FACEBOOK="curl -s -A 'facebookexternalhit/1.1 (+https://www.facebook.com/externalhit_uatext.php)' "
+
+# Vagrant
+alias vu="vagrant up"
+alias vs="vagrant ssh"
+
+# Structures that are common in projects I work on
+alias wl="$GUI_EDITOR src/Application src/www src . ~/workspace/php/PEAR/WebLab"
+
+# Git aliasses
+alias gs="git status"
+alias ga="git add"
+alias gd="git diff"
+alias gc="git commit"
+alias gap="git add --patch"
+alias gf="git feature"
+alias gl='git log --graph --full-history --all --color --pretty=format:"%x1b[31m%h%x09%x1b[32m%d%x1b[0m%x20%s"'
+alias gdmb="git delete-merged-branches"
+alias gsui="git submodule update --init"
+
+

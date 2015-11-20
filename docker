@@ -1,0 +1,18 @@
+#!/bin/sh
+
+# Bind docker command to a machine set up by docker-machine.
+
+if [ ! -z "`which docker-machine`" ]; then
+	if [ "`docker-machine status docker-vm`" = "Running" ]; then
+		eval "$(docker-machine env docker-vm 2> /dev/null)"
+	fi
+
+	DOCKER_BIN="`which docker`"
+	docker() {
+		if [ "`docker-machine status docker-vm`" != "Running" ]; then
+			docker-machine start docker-vm 2> /dev/null > /dev/null
+	        eval "$(docker-machine env docker-vm 2> /dev/null)"
+		fi
+		$DOCKER_BIN "$@"
+	}
+fi

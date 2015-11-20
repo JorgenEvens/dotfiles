@@ -1,0 +1,26 @@
+#!/bin/sh
+
+# Load hub ( https://hub.github.com )
+eval "$(hub alias -s)"
+
+alias grm="git-rebase-master"
+git-rebase-master() {
+	local ORIGIN
+	local BRANCH
+	ORIGIN="$1"
+	BRANCH="$2"
+	test -z "$ORIGIN" && ORIGIN="origin"
+	test -z "$BRANCH" && BRANCH="master"
+
+    git fetch "$ORIGIN"
+	git rebase "${ORIGIN}/${BRANCH}"
+}
+
+alias gmu="git-merge-upstream"
+git-merge-upstream() {
+	branch="$1"
+	test -z "$branch" && branch="master"
+	git fetch upstream
+	git merge upstream/$branch
+}
+
