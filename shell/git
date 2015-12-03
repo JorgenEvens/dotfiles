@@ -3,6 +3,11 @@
 # Load hub ( https://hub.github.com )
 eval "$(hub alias -s)"
 
+alias gpr="git-pull-request"
+git-pull-request() {
+	local BASE
+}
+
 alias grm="git-rebase-master"
 git-rebase-master() {
 	local ORIGIN
@@ -23,4 +28,3 @@ git-merge-upstream() {
 	git fetch upstream
 	git merge upstream/$branch
 }
-

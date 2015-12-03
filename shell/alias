@@ -8,7 +8,6 @@ alias gw="grunt watch"
 alias dev="wl && gw"
 alias edit="$GUI_EDITOR src ."
 alias gocc="closure-compiler"
-alias vi="vim"
 
 alias HEAD="curl -D - -X GET -o /dev/null"
 alias FACEBOOK="curl -s -A 'facebookexternalhit/1.1 (+https://www.facebook.com/externalhit_uatext.php)' "
@@ -30,5 +29,10 @@ alias gf="git feature"
 alias gl='git log --graph --full-history --all --color --pretty=format:"%x1b[31m%h%x09%x1b[32m%d%x1b[0m%x20%s"'
 alias gdmb="git delete-merged-branches"
 alias gsui="git submodule update --init"
+alias gpr="git pull-request -o"
 
+# Fix tmux colors
+alias tmux="tmux -2"
 
+# Use colors in watch
+alias watch="watch --color"

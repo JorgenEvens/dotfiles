@@ -1,5 +1,7 @@
 #!/bin/sh
 
+export EDITOR="vim"
+
 switch() {
 	local CURRENT
 	local TARGET
