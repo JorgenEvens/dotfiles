@@ -113,7 +113,7 @@ let g:EditorConfig_exec_path = '/usr/local/bin/editorconfig'
 " map <C-t> :CommandT<CR>
 map <C-p> :CommandT<CR>
 map <C-t> :CommandTBuffer<CR>
-let g:CommandTWildIgnore=&wildignore . '.git,node_modules/**,custom_modules/**,coverage/**,dist/**'
+let g:CommandTWildIgnore=&wildignore . '**/.git,**/node_modules,**/coverage,**/dist'
 let g:CommandTIgnoreCase=1
 
 " Fugitive
