@@ -1,0 +1,111 @@
+#!/bin/sh
+export PATH="/usr/local/bin:$PATH"
+
+# abort if we're already inside a TMUX session
+[ "$TMUX" == "" ] || exit 0
+
+realpath() {
+    local PWD
+    PWD="$2"
+    test -z "$PWD" && PWD=`pwd`
+    [[ $1 = /* ]] && echo "$1" || echo "$PWD/${1#./}"
+}
+
+follow_link() {
+    local SCRIPT_PATH
+    local REL_DIR
+    SCRIPT_PATH="$1"
+    while [ -h "$SCRIPT_PATH" ]; do
+        REL_DIR="$(follow_link `dirname $SCRIPT_PATH`)"
+        SCRIPT_PATH=`readlink "$SCRIPT_PATH"`;
+        SCRIPT_PATH=`realpath $SCRIPT_PATH $REL_DIR`
+    done
+
+    echo $SCRIPT_PATH
+}
+
+launch_zsh() {
+    HAD_SESSION=1
+    zsh --login
+}
+
+launch_tmux() {
+    HAD_SESSION=1
+    tmux -2 "$@"
+}
+
+attach_tmux() {
+    launch_tmux attach-session -t "$1"
+}
+
+launch_go2shell() {
+    local SESSION
+    SESSION="`echo $1 | grep -o -P 'cd\s[^;]+' | grep -o -P '[^(cd\s)][^;]+'`"
+    launch_named_tmux "$SESSION" -d
+    tmux send-keys -t "$SESSION" "$1"
+    tmux send-keys -t "$SESSION" C-m
+    launch_named_tmux "$SESSION"
+}
+
+launch_named_tmux() {
+    # tmux has-session -t "$1" 2>&1 > /dev/null
+    # if [ $? -eq 0 ]; then
+        # attach_tmux "$1"
+    # else
+        launch_tmux new-session -s "$@" -A
+    # fi
+}
+
+launch_unnamed_tmux() {
+    launch_named_tmux "${SESSION_PREFIX}_${NR_SESSIONS}"
+}
+
+SCRIPT_PATH=`follow_link $0`
+SESSION_PREFIX="unnamed"
+HAD_SESSION=0
+
+# present menu for user to choose which workspace to open
+while true; do
+    # TMOUT=5 # Timeout after 5 seconds and open a new tmux session
+    SESSIONS=($(tmux list-sessions -F '#S'))
+    NR_SESSIONS=${#SESSIONS[@]}
+    test ${#SESSIONS} -lt 1 && SESSIONS=("")
+    PS3="Please choose your session: "
+    echo "Options"
+    echo "------------------"
+    echo "b) attach bubobox"
+    echo "n) new session"
+    echo "z) zsh"
+    echo "q) quit"
+    echo ""
+    echo "Available sessions"
+    echo "------------------"
+    select opt in "${SESSIONS[@]}"
+    do
+        case $opt in
+            "")
+                case "$REPLY" in
+                    "") launch_unnamed_tmux;;
+                    "b") `dirname $SCRIPT_PATH`/tmux-bubobox;;
+                    "n") launch_unnamed_tmux;;
+                    "z") launch_zsh;;
+                    "q") exit;;
+                    "quit") exit;;
+                    "cd "*) launch_go2shell "$REPLY" ;;
+                    *) launch_named_tmux "$REPLY"
+                esac
+                ;;
+            *)
+                attach_tmux $opt
+                ;;
+        esac
+        break
+    done
+
+    if [ ! $? -eq 0 ]; then
+        # Leave shell if we are leaving a shell
+        test $HAD_SESSION -gt 0 && exit
+
+        launch_unnamed_tmux
+    fi
+done
