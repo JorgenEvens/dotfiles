@@ -23,6 +23,8 @@ set title " set window title
 set completeopt=longest,menuone
 set colorcolumn=80
 set clipboard=unnamed
+set timeoutlen=500
+let mapleader=";"
 
 " Highlight trailing whitespace
 highlight ExtraWhitespace ctermbg=red guibg=red
@@ -74,17 +76,20 @@ cnoreabbrev git Git
 imap jj <Esc>
 
 " Write without using shift
-nmap ;q :q<cr>
-nmap ;ww :wq<cr>
-imap ;ww <esc>:wq<cr>
+nmap <leader>q :bd<cr>
+nmap <leader>qq :q<cr>
+nmap <leader>ww :wq<cr>
+imap <leader>ww <esc>:wq<cr>
 
-nmap ;w :w<cr>
-imap ;w <Esc>:w<cr>
+nmap <leader>w :w<cr>
+imap <leader>w <Esc>:w<cr>
 
-
+" Clear search
+nmap <leader>n :noh<cr>
 
 nmap bd :bd<cr>
 nmap bn :bn<cr>
+nmap bp :bp<cr>
 
 " Go to first character on line
 inoremap <Home> <esc>^a<Left>
