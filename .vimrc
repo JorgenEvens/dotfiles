@@ -14,6 +14,7 @@ set autoindent
 set hidden
 set backspace=indent,eol,start
 set incsearch " Highlight search result as we type
+set hlsearch " Highlight all search results in the file
 set laststatus=2 " Always show status bar
 set nostartofline " Don't reset cursor
 set ruler " disable contents of start screen
