@@ -115,3 +115,9 @@ map <C-p> :CommandT<CR>
 map <C-t> :CommandTBuffer<CR>
 let g:CommandTWildIgnore=&wildignore . '.git,node_modules/**,custom_modules/**,coverage/**,dist/**'
 let g:CommandTIgnoreCase=1
+
+" Fugitive
+nmap <leader>gs :Gstatus<CR>
+nmap <leader>gc :Gcommit<CR>
+nmap <leader>gb :Gblame<CR>
+nmap <leader>gg :Gbrowse<CR>
