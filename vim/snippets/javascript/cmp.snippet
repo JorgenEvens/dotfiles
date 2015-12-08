@@ -1,11 +1,5 @@
-'use strict';
-
-import React from 'react';
-import BEM from 'bemjs';
-import { } from 'bbbx-components';
-import { components as naming } from 'naming';
-
-export default class ${1:Name} extends React.Component {
+export default
+class ${1:Name} extends React.Component {
 
     static displayName = '$1'
 
@@ -14,11 +8,11 @@ export default class ${1:Name} extends React.Component {
     }
 
     static defaultProps = {
-        ${4:prop}: '${5:value}'
+        ${4:prop}: ${5:value}
     }
 
     render() {
-        const b$1 = BEM.block(naming.$1);
+        const b$1 = block(naming.$1);
 
         return (
             <div className={b$1}>
