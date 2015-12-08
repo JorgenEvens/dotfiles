@@ -121,3 +121,6 @@ nmap <leader>gs :Gstatus<CR>
 nmap <leader>gc :Gcommit<CR>
 nmap <leader>gb :Gblame<CR>
 nmap <leader>gg :Gbrowse<CR>
+
+" vim-template
+let g:templates_directory='~/.vim/templates'
