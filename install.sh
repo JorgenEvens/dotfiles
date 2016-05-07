@@ -48,7 +48,3 @@ cd `dirname $SCRIPT_PATH`
 git submodule update --init
 vim +PluginInstall +qa
 
-# CommandT special
-cd `dirname $SCRIPT_PATH`/vim/bundle/command-t/ruby/command-t
-ruby extconf.rb
-make
