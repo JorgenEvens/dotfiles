@@ -11,7 +11,7 @@ DIR="`dirname $SCRIPT_PATH`/shell"
 
 export PATH=$HOME/.bin:/usr/local/bin:/usr/local/sbin:$PATH
 
-ENABLED=(ohmyzsh git alias sprinter workflow docker nvm brew bubobox vim)
+ENABLED=(ohmyzsh git alias sprinter workflow docker nvm brew bubobox vim dokku)
 
 for FILE in $ENABLED; do
     . "$DIR/$FILE"

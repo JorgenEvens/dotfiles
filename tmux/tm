@@ -75,6 +75,7 @@ while true; do
     echo "------------------"
     echo "b) attach bubobox"
     echo "n) new session"
+    echo "t) top of screen"
     echo "z) zsh"
     echo "q) quit"
     echo ""
@@ -88,6 +89,7 @@ while true; do
                     "") launch_unnamed_tmux;;
                     "b") `dirname $SCRIPT_PATH`/tmux-bubobox;;
                     "n") launch_unnamed_tmux;;
+                    "t") `dirname $SCRIPT_PATH`/tmux-top-of-screen;;
                     "z") launch_zsh;;
                     "q") exit;;
                     "quit") exit;;

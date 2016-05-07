@@ -1,0 +1,26 @@
+#!/bin/sh
+
+SESSIONNAME=top-of-screen
+
+setuppane() {
+    tmux send-keys -t $SESSIONNAME "cd ~/workspace && clear" C-m
+}
+
+setupwindow() {
+    sleep 0.3
+    tmux split-window -t $SESSIONNAME -h
+    setuppane
+}
+
+tmux has-session -t $SESSIONNAME 2> /dev/null > /dev/null
+
+if [ $? != 0 ]; then
+    tmux new-session -s $SESSIONNAME -d
+    setuppane
+    setupwindow
+    setupwindow
+    setupwindow
+    tmux select-layout even-horizontal
+fi
+
+tmux -2 attach-session -t $SESSIONNAME

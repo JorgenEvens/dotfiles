@@ -1,0 +1,5 @@
+#!/bin/sh
+
+alias dokku="ssh -t dokku@dokku.dev.bubobox.com"
+alias devbox="ssh -t dokku@dokku.dev.bubobox.com"
+

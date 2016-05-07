@@ -1,0 +1,20 @@
+#!/bin/zsh
+
+SESSIONNAME="develop"
+CODEFOLDER="~/workspace/bubobox"
+tmux has-session -t $SESSIONNAME &> /dev/null
+
+if [ $? != 0 ]
+ then
+
+    tmux new-session -s $SESSIONNAME -n main -d
+    tmux send-keys -t $SESSIONNAME "vim $CODEFOLDER" C-m
+    tmux split-window -v
+    tmux resize-pane -t 1 -y 20
+    tmux send-keys -t $SESSIONNAME "cd $CODEFOLDER && clear" C-m
+    tmux split-window -h
+    tmux send-keys -t $SESSIONNAME "cd $CODEFOLDER && clear" C-m
+
+fi
+
+tmux attach -t $SESSIONNAME

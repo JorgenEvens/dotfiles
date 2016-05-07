@@ -1,0 +1,33 @@
+#!/bin/sh
+
+alias tmux="tmux -2"
+
+SESSIONNAME="bubobox"
+CODEFOLDER="~/workspace/bubobox/local"
+tmux has-session -t $SESSIONNAME &> /dev/null
+
+if [ $? != 0 ]
+ then
+
+   PROJECTS=("manage" "components" "unity" "admin" "api" "../devbox" "vision")
+
+    tmux new-session -s $SESSIONNAME -n main -d
+#    tmux send-keys -t $SESSIONNAME "cd $CODEFOLDER/bible && clear" C-m
+#    tmux split-window -h
+#    tmux send-keys -t $SESSIONNAME "cd $CODEFOLDER/sandbox && clear" C-m
+#    tmux split-window -v
+#    tmux send-keys -t $SESSIONNAME "cd ~/dotfiles && clear" C-m
+
+    for P in $PROJECTS; do
+        tmux new-window -t $SESSIONNAME -n "$P"
+        tmux send-keys -t $SESSIONNAME "cd $CODEFOLDER/$P && vim ." C-m
+        tmux split-window -v
+        tmux send-keys -t $SESSIONNAME "cd $CODEFOLDER/$P && clear" C-m
+        tmux split-window -h
+        tmux send-keys -t $SESSIONNAME "cd $CODEFOLDER/$P && clear" C-m
+        tmux resize-pane -t $SESSIONNAME -y 20
+    done
+
+fi
+
+tmux attach -t $SESSIONNAME

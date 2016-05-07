@@ -16,3 +16,7 @@ if [ ! -z "`which docker-machine`" ]; then
 		$DOCKER_BIN "$@"
 	}
 fi
+
+docker-clean() {
+    docker rm $(docker ps -a -q)
+}

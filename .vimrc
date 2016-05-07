@@ -1,7 +1,48 @@
 " vim:foldmethod=marker:foldlevel=0
 
 " Vundle {{{
-source ~/.vim/plugins.vim
+set nocompatible
+filetype off
+
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+
+Plugin 'VundleVim/Vundle.vim'
+Plugin 'kana/vim-smartinput'
+Plugin 'ctrlpvim/ctrlp.vim'
+Plugin 'editorconfig/editorconfig-vim'
+Plugin 'scrooloose/nerdtree'
+Plugin 'Xuyuanp/nerdtree-git-plugin'
+Plugin 'edkolev/tmuxline.vim'
+Plugin 'ervandew/supertab'
+Plugin 'bling/vim-airline'
+Plugin 'isRuslan/vim-es6'
+Plugin 'tpope/vim-fugitive'
+Plugin 'airblade/vim-gitgutter'
+Plugin 'pangloss/vim-javascript'
+Plugin 'mxw/vim-jsx'
+Plugin 'pthk/vim-luna'
+Plugin 'tpope/vim-surround'
+Plugin 'cakebaker/scss-syntax.vim'
+Plugin 'tpope/vim-commentary'
+Plugin 'jason0x43/vim-js-indent'
+Plugin 'sickill/vim-pasta'
+Plugin 'wavded/vim-stylus'
+Plugin 'elzr/vim-json'
+Plugin 'ekalinin/Dockerfile.vim'
+Plugin 'aperezdc/vim-template'
+Plugin 'MarcWeber/vim-addon-mw-utils'
+Plugin 'tomtom/tlib_vim'
+Plugin 'garbas/vim-snipmate'
+Plugin 'scrooloose/nerdcommenter'
+Plugin 'rking/ag.vim'
+Plugin 'StanAngeloff/php.vim'
+Plugin 'plasticboy/vim-markdown'
+Plugin 'niklasl/vim-rdf'
+Plugin 'terryma/vim-multiple-cursors'
+call vundle#end()
+filetype on
+filetype plugin on
 " }}}
 " Colors {{{
 syntax on
@@ -28,26 +69,29 @@ set noshowmode " Show current mode
 set completeopt=longest,menuone
 set colorcolumn=80 " Shou line at 80 characters
 set backspace=indent,eol,start
-set clipboard=unnamed
+set clipboard=unnamed " Use OSX clipboard
 set scrolloff=5 " Alwasy show 5 lines before and after cursor
+set nowrap " Disable line wrap
 set visualbell
+set cursorline " Highlight active line
+set wildmenu " Visual autocomplete menu in command bar
+set lazyredraw " Do not redraw during macros
+set showmatch " Highlight matching brackets
+set foldenable
 
 " Highlight trailing whitespace
 highlight ExtraWhitespace ctermbg=red guibg=red
 match ExtraWhitespace /\s\+$/
 
-" Disable line wrap
-set nowrap
-
 " allows cursor change in tmux mode
 if exists('$TMUX')
     let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
-    let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
-    " let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
+    "let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
+    let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
 else
     let &t_SI = "\<Esc>]50;CursorShape=1\x7"
-    let &t_EI = "\<Esc>]50;CursorShape=1\x7"
-    " let &t_EI = "\<Esc>]50;CursorShape=0\x7"
+"    let &t_EI = "\<Esc>]50;CursorShape=1\x7"
+    let &t_EI = "\<Esc>]50;CursorShape=0\x7"
 endif
 " }}}
 " Search {{{
@@ -93,6 +137,12 @@ nmap bp :bp<cr>
 " Go to first character on line
 inoremap <Home> <esc>^a<Left>
 nnoremap <Home> ^
+
+" Open/close folds
+nnoremap <space> za
+
+" Silver Searcher
+nmap <leader>ag :Ag<space>-u<space>""<Left>
 " }}}
 " File changes {{{
 " check file change every 4 seconds ('CursorHold') and reload the buffer upon detecting change
@@ -125,12 +175,9 @@ let g:airline#extensions#tabline#enabled = 1
 let g:EditorConfig_exclude_patterns = ['fugitive://.*', 'scp://.*']
 let g:EditorConfig_exec_path = '/usr/local/bin/editorconfig'
 " }}}
-" CommandT {{{
-" map <C-t> :CommandT<CR>
-map <C-p> :CommandT<CR>
-map <C-t> :CommandTBuffer<CR>
-let g:CommandTWildIgnore=&wildignore . '**/.git,**/node_modules,**/coverage,**/dist'
-let g:CommandTIgnoreCase=1
+" CtrlP {{{
+let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standard']
+let g:ctrlp_switch_buffer = 1
 " }}}
 " Fugitive {{{
 
@@ -147,8 +194,24 @@ let g:templates_directory = ['~/.vim/templates']
 " }}}
 " NERDCommenter {{{
 filetype plugin on
+let NERDSpaceDelims=1
+" }}}
+" Silver Searcher / ag.vim {{{
+let g:ag_working_path_mode="r" " Search in project root
+let g:ag_highlight=1
+" }}}
+" VIM Multiple Cursors {{{
+let g:multi_cursor_use_default_mapping=0
+let g:multi_cursor_next_key='<C-n>'
+let g:multi_cursor_prev_key='<C-p>'
+let g:multi_cursor_skip_key='<C-x>'
+let g:multi_cursor_quit_key='<C-j>'
 " }}}
 " Backups {{{
-silent exec "!mkdir -p /tmp/.vim"
-set backupdir=/tmp/.vim
+silent exec "!mkdir -p /tmp/.vim/{bck,swp}"
+set backupdir=/tmp/.vim/bck
+set directory=/tmp/.vim/swp
+" }}}
+" Custom Tabs {{{
+filetype plugin on
 " }}}

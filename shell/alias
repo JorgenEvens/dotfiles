@@ -30,6 +30,9 @@ alias gl='git log --graph --full-history --all --color --pretty=format:"%x1b[31m
 alias gdmb="git delete-merged-branches"
 alias gsui="git submodule update --init"
 alias gpr="git pull-request -o"
+alias gpu="git push -u"
+alias gpo="git push -u origin"
+alias grum="git rebase upstream/master"
 
 # Fix tmux colors
 alias tmux="tmux -2"
