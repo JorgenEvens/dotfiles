@@ -15,7 +15,8 @@ Plugin 'scrooloose/nerdtree'
 Plugin 'Xuyuanp/nerdtree-git-plugin'
 Plugin 'edkolev/tmuxline.vim'
 Plugin 'ervandew/supertab'
-Plugin 'bling/vim-airline'
+Plugin 'vim-airline/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'
 Plugin 'isRuslan/vim-es6'
 Plugin 'tpope/vim-fugitive'
 Plugin 'airblade/vim-gitgutter'
@@ -69,7 +70,7 @@ set noshowmode " Show current mode
 set completeopt=longest,menuone
 set colorcolumn=80 " Shou line at 80 characters
 set backspace=indent,eol,start
-set clipboard=unnamed " Use OSX clipboard
+set clipboard=unnamedplus " Use OSX clipboard
 set scrolloff=5 " Alwasy show 5 lines before and after cursor
 set nowrap " Disable line wrap
 set visualbell

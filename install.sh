@@ -43,6 +43,9 @@ done
 symlink vim .vim
 symlink bin .bin
 
+# Install autoenv
+git clone git://github.com/kennethreitz/autoenv.git ~/.autoenv
+
 # Install VI plugins
 cd `dirname $SCRIPT_PATH`
 git submodule update --init
