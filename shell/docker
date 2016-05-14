@@ -4,7 +4,6 @@
 
 which docker-machine 2> /dev/null > /dev/null
 if [ $? = 0 ]; then
-    echo test
 	if [ "`docker-machine status docker-vm`" = "Running" ]; then
 		eval "$(docker-machine env docker-vm 2> /dev/null)"
 	fi
