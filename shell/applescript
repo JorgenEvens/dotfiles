@@ -1,0 +1,21 @@
+#!/bin/sh
+
+__applescript_conversation() {
+    local APP
+    local COMMAND
+    APP="$1"
+    shift
+    COMMAND="$@"
+
+    echo "tell application \"$APP\""
+    if [ ! -z "$COMMAND" ]; then
+        echo "$@"
+    else
+        cat
+    fi
+    echo "end tell"
+}
+
+ask() {
+    __applescript_conversation "$@" | osascript
+}
