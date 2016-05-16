@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
 GPG_ENV=$HOME/.gnupg/gpg-agent.env
 
