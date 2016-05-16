@@ -1,0 +1,8 @@
+#!/bin/sh
+
+which xdg-open 2> /dev/null > /dev/null
+if [ $? = 0 ]; then
+    open() {
+        xdg-open "$@" 2> /dev/null > /dev/null
+    }
+fi
