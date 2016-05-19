@@ -70,7 +70,6 @@ set noshowmode " Show current mode
 set completeopt=longest,menuone
 set colorcolumn=80 " Shou line at 80 characters
 set backspace=indent,eol,start
-set clipboard=unnamedplus " Use OSX clipboard
 set scrolloff=5 " Alwasy show 5 lines before and after cursor
 set nowrap " Disable line wrap
 set visualbell
@@ -93,6 +92,13 @@ else
     let &t_SI = "\<Esc>]50;CursorShape=1\x7"
 "    let &t_EI = "\<Esc>]50;CursorShape=1\x7"
     let &t_EI = "\<Esc>]50;CursorShape=0\x7"
+endif
+" }}}
+" Clipboard {{{
+if has('unnamedplus')
+  set clipboard=unnamedplus
+else
+  set clipboard=unnamed
 endif
 " }}}
 " Search {{{
