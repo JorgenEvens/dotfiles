@@ -154,6 +154,11 @@ nmap <leader>ag :Ag<space>-u<space>""<Left>
 " check file change every 4 seconds ('CursorHold') and reload the buffer upon detecting change
 set autoread
 au CursorHold * checktime
+
+" Copy original file to backup
+" and overwrite original afterwards.
+" Required for webpack-dev-server
+set backupcopy=yes
 " }}}
 " NERDTree {{{
 let g:jsx_ext_required = 0 " Allow JSX in normal JS filesi
