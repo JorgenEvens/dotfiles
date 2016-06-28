@@ -8,14 +8,16 @@ root() {
     local CUR_DIR
     CUR_DIR="`pwd`"
 
-    cd ..
+    builtin cd ..
     while [ ! -d ".git" ] && [ ! -f "package.json" ] && [ "`pwd`" != "/" ]; do
-        cd ..
+        builtin cd ..
     done
 
     if [ "`pwd`" = "/" ]; then
         >&2 echo "No parent root found"
-        cd "$CUR_DIR"
+        builtin cd "$CUR_DIR"
+    else
+        cd .
     fi
 }
 
