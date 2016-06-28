@@ -28,3 +28,26 @@ git-merge-upstream() {
 	git fetch upstream
 	git merge upstream/$branch
 }
+
+gitclean() {
+    git delete-merged-branches
+    git gc
+}
+
+gitcleandir() {
+    local DIR
+    DIR="`pwd`"
+    echo "Start dir is $DIR"
+    IFS="
+"
+    for i in `ls`; do
+        if [ -d "$i" ]; then
+            echo "Changing into $i"
+            builtin cd "$i"
+            if [ -d ".git" ]; then
+                gitclean
+            fi
+            builtin cd "$DIR"
+        fi
+    done
+}
