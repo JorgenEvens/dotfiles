@@ -50,3 +50,7 @@ git clone git://github.com/kennethreitz/autoenv.git ~/.autoenv
 cd `dirname $SCRIPT_PATH`
 git submodule update --init
 vim +PluginInstall +qa
+
+# Setup NeoVIM
+mkdir -p ${XDG_CONFIG_HOME:=$HOME/.config}
+ln -s ~/.vim $XDG_CONFIG_HOME/nvim
