@@ -46,11 +46,16 @@ symlink bin .bin
 # Install autoenv
 git clone git://github.com/kennethreitz/autoenv.git ~/.autoenv
 
+# Setup NeoVIM
+mkdir -p ${XDG_CONFIG_HOME:=$HOME/.config}
+ln -s ~/.vim $XDG_CONFIG_HOME/nvim
+
 # Install VI plugins
 cd `dirname $SCRIPT_PATH`
 git submodule update --init
 vim +PluginInstall +qa
 
-# Setup NeoVIM
-mkdir -p ${XDG_CONFIG_HOME:=$HOME/.config}
-ln -s ~/.vim $XDG_CONFIG_HOME/nvim
+# Configure GIT
+git config --global user.email "jorgen@evens.eu"
+git config --global user.name "Jorgen Evens"
+git config --global commit.sign true
