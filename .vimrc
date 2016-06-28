@@ -39,6 +39,7 @@ Plugin 'plasticboy/vim-markdown'
 Plugin 'niklasl/vim-rdf'
 Plugin 'terryma/vim-multiple-cursors'
 Plugin 'sheerun/vim-polyglot'
+Plugin 'gorodinskiy/vim-coloresque'
 call vundle#end()
 filetype on
 filetype plugin on
