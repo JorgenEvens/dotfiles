@@ -187,7 +187,7 @@ let g:EditorConfig_exclude_patterns = ['fugitive://.*', 'scp://.*']
 let g:EditorConfig_exec_path = '/usr/local/bin/editorconfig'
 " }}}
 " CtrlP {{{
-let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standard']
+let g:ctrlp_user_command = ['.git', 'cd %s && searchpath']
 let g:ctrlp_switch_buffer = 1
 " }}}
 " Fugitive {{{

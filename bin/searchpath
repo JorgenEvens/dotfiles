@@ -1,0 +1,58 @@
+#!/bin/sh
+
+set -e
+
+test -z "$CTRLP_EXTRA" && \
+    CTRLP_EXTRA="src/application/modules/base"
+
+root() {
+    local CUR_DIR
+    CUR_DIR="`pwd`"
+
+    builtin cd ..
+    while [ ! -d ".git" ] && [ ! -f "package.json" ] && [ "`pwd`" != "/" ]; do
+        builtin cd ..
+    done
+
+    if [ "`pwd`" = "/" ]; then
+        >&2 echo "No parent root found"
+        builtin cd "$CUR_DIR"
+    else
+        cd .
+    fi
+}
+
+search() {
+    git ls-files -co --exclude-standard
+}
+
+# List files in current repository
+search
+
+# Go to root
+if [ ! -d ".git" ] && [ ! -f "package.json" ] && [ ! -f "composer.json" ]; then
+    root
+fi
+ROOT=`pwd`
+
+# This allows searching all submodules
+if [ -d ".git" ]; then
+    CTRLP_EXTRA="$CTRLP_EXTRA `git submodule | awk '{print $2}'`"
+fi
+
+# list files in each EXTRA dir if it exists.
+for EXTRA in $CTRLP_EXTRA; do
+    builtin cd "$ROOT"
+
+    # We can use git to find all the files
+    if [ -e "$EXTRA/.git" ]; then
+        builtin cd "$EXTRA"
+        search | while read file; do
+            echo "$EXTRA/$file"
+        done
+
+    # Use find since git is not avaiable
+    elif [ -d "$EXTRA" ]; then
+        find -X node_modules "$EXTRA"
+    fi
+done
