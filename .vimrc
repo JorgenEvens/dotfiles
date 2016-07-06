@@ -40,6 +40,8 @@ Plugin 'niklasl/vim-rdf'
 Plugin 'terryma/vim-multiple-cursors'
 Plugin 'sheerun/vim-polyglot'
 Plugin 'gorodinskiy/vim-coloresque'
+Plugin 'Valloric/MatchTagAlways'
+Plugin '1995eaton/vim-better-javascript-completion'
 call vundle#end()
 filetype on
 filetype plugin on
@@ -77,6 +79,7 @@ set wildmenu " Visual autocomplete menu in command bar
 set lazyredraw " Do not redraw during macros
 set showmatch " Highlight matching brackets
 set foldenable
+set encoding=utf8
 
 " Highlight trailing whitespace
 highlight ExtraWhitespace ctermbg=red guibg=red
@@ -217,6 +220,15 @@ let g:multi_cursor_next_key='<C-n>'
 let g:multi_cursor_prev_key='<C-p>'
 let g:multi_cursor_skip_key='<C-x>'
 let g:multi_cursor_quit_key='<C-j>'
+" }}}
+" MatchTagAlways {{{
+let g:mta_filetypes = {
+\ 'html' : 1,
+\ 'xhtml' : 1,
+\ 'xml' : 1,
+\ 'jinja' : 1,
+\ 'javascript.jsx' : 1,
+\}
 " }}}
 " Backups {{{
 silent exec "!mkdir -p /tmp/.vim/{bck,swp}"
