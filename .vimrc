@@ -102,6 +102,10 @@ if has('unnamedplus')
 else
   set clipboard=unnamed
 endif
+
+if has('nvim')
+    set clipboard+=unnamedplus
+endif
 " }}}
 " Search {{{
 set incsearch " Highlight search result as we type
