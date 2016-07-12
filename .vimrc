@@ -42,6 +42,7 @@ Plugin 'sheerun/vim-polyglot'
 Plugin 'gorodinskiy/vim-coloresque'
 Plugin 'Valloric/MatchTagAlways'
 Plugin '1995eaton/vim-better-javascript-completion'
+Plugin 'neomake/neomake'
 call vundle#end()
 filetype on
 filetype plugin on
@@ -233,6 +234,10 @@ let g:mta_filetypes = {
 \ 'jinja' : 1,
 \ 'javascript.jsx' : 1,
 \}
+" }}}
+" Neomake {{{
+let g:neomake_javascript_enabled_makers = ['eslint']
+autocmd! BufWritePost * Neomake
 " }}}
 " Backups {{{
 silent exec "!mkdir -p /tmp/.vim/{bck,swp}"
