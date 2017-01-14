@@ -46,6 +46,10 @@ symlink bin .bin
 # Install autoenv
 git clone git://github.com/kennethreitz/autoenv.git ~/.autoenv
 
+# Install Tmux Plugin Manager
+mkdir -p ${DIR}/tmux/plugins
+git clone https://github.com/tmux-plugins/tpm ${DIR}/tmux/plugins/tpm
+
 # Setup NeoVIM
 mkdir -p ${XDG_CONFIG_HOME:=$HOME/.config}
 ln -s ~/.vim $XDG_CONFIG_HOME/nvim

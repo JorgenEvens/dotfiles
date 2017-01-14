@@ -43,6 +43,7 @@ Plugin 'gorodinskiy/vim-coloresque'
 Plugin 'Valloric/MatchTagAlways'
 Plugin '1995eaton/vim-better-javascript-completion'
 Plugin 'neomake/neomake'
+Plugin 'jaawerth/nrun.vim'
 call vundle#end()
 filetype on
 filetype plugin on
@@ -133,7 +134,7 @@ map <C-k> :bn<cr>
 imap jj <Esc>
 
 " Write without using shift
-nmap <leader>q :bd<cr>
+nmap <leader>q :NERDTreeCloseBuffer<cr>
 nmap <leader>qq :q<cr>
 nmap <leader>ww :wq<cr>
 imap <leader>ww <esc>:wq<cr>
@@ -156,7 +157,7 @@ nnoremap <Home> ^
 nnoremap <space> za
 
 " Silver Searcher
-nmap <leader>ag :Ag<space>-u<space>""<Left>
+nmap <leader>ag :Ag<space>""<Left>
 " }}}
 " File changes {{{
 " check file change every 4 seconds ('CursorHold') and reload the buffer upon detecting change
@@ -174,6 +175,18 @@ let NERDTreeShowHidden=1
 
 " Toggle VIM with ctrl + l
 map <C-l> :NERDTreeToggle<CR>
+
+function! NERDTreeCloseBuffer()
+    if exists("b:NERDTree") && b:NERDTree.isTabTree()
+        NERDTreeToggle
+        bd
+        NERDTreeToggle
+    else
+        bd
+    endif
+endfunction
+
+command! NERDTreeCloseBuffer :call NERDTreeCloseBuffer()
 
 " Close VIM when only NERDTree is open
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
@@ -236,7 +249,10 @@ let g:mta_filetypes = {
 \}
 " }}}
 " Neomake {{{
+let g:neomake_javascript_eslint_exe = nrun#Which('eslint')
 let g:neomake_javascript_enabled_makers = ['eslint']
+let g:neomake_jsx_eslint_exe = nrun#Which('eslint')
+let g:neomake_jsx_enabled_makers = ['eslint']
 autocmd! BufWritePost * Neomake
 " }}}
 " Backups {{{
