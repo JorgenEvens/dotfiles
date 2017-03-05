@@ -45,6 +45,36 @@ done
 symlink vim .vim
 symlink bin .bin
 
+if [ `uname` = "Linux" ]; then
+    # Update to latest git
+    sudo add-apt-repository -yu ppa:git-core/ppa
+    sudo apt-get install git
+
+    # Install hub
+    curl -L https://github.com/github/hub/releases/download/v2.2.9/hub-linux-amd64-2.2.9.tgz | tar -xz -C /tmp
+    sudo /tmp/hub-linux-amd64-*/install
+
+    # Install latest tmux
+    sudo add-apt-repository -yu ppa:pi-rho/dev
+    sudo apt-get install tmux-next
+    sudo update-alternatives --install /usr/bin/tmux tmux /usr/bin/tmux-next 60
+
+    # Install neovim
+    sudo add-apt-repository -yu ppa:neovim-ppa/stable
+    sudo apt-get install neovim python-dev python-pip
+    sudo pip install neovim
+
+    sudo update-alternatives --install /usr/bin/vi vi /usr/bin/nvim 60
+    sudo update-alternatives --install /usr/bin/vim vim /usr/bin/nvim 60
+    sudo update-alternatives --install /usr/bin/editor editor /usr/bin/nvim 60
+
+    # Install patched powerline fonts
+    mkdir -p ~/.fonts/
+    git clone https://github.com/powerline/fonts.git /tmp/powerline-fonts
+    cp -a /tmp/powerline-fonts/SourceCodePro/* ~/.fonts/
+    sudo fc-cache -f -v
+fi
+
 # Install autoenv
 git clone git://github.com/kennethreitz/autoenv.git ~/.autoenv
 
