@@ -64,4 +64,4 @@ vim +PluginInstall +qa
 # Configure GIT
 git config --global user.email "jorgen@evens.eu"
 git config --global user.name "Jorgen Evens"
-git config --global commit.sign true
+git config --global commit.gpgsign true
