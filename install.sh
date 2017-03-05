@@ -36,6 +36,8 @@ symlink() {
 TO_LINK=("$(cd $DIR; ls .*rc)")
 TO_LINK+=" .tmux.conf"
 
+git submodule update --init
+
 for file in $TO_LINK; do
     symlink "$file"
 done
