@@ -65,7 +65,7 @@ SESSION_PREFIX="unnamed"
 HAD_SESSION=0
 
 # present menu for user to choose which workspace to open
-while true; do
+# while true; do
     # TMOUT=5 # Timeout after 5 seconds and open a new tmux session
     SESSIONS=($(tmux list-sessions -F '#S'))
     NR_SESSIONS=${#SESSIONS[@]}
@@ -76,6 +76,7 @@ while true; do
     echo "b) attach bubobox"
     echo "n) new session"
     echo "t) top of screen"
+    echo "ssh) ssh somewhere"
     echo "z) zsh"
     echo "q) quit"
     echo ""
@@ -94,6 +95,7 @@ while true; do
                     "q") exit;;
                     "quit") exit;;
                     "cd "*) launch_go2shell "$REPLY" ;;
+                    "ssh "*) $REPLY;;
                     *) launch_named_tmux "$REPLY"
                 esac
                 ;;
@@ -110,4 +112,6 @@ while true; do
 
         launch_unnamed_tmux
     fi
-done
+
+exec $0
+# done
