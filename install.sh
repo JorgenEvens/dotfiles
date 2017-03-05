@@ -73,6 +73,11 @@ if [ `uname` = "Linux" ]; then
     git clone https://github.com/powerline/fonts.git /tmp/powerline-fonts
     cp -a /tmp/powerline-fonts/SourceCodePro/* ~/.fonts/
     sudo fc-cache -f -v
+
+    # Disable alt-space shortcut to allow alt usage in tmux
+    gsettings set org.gnome.desktop.wm.keybindings activate-window-menu '[]'
+
+
 fi
 
 # Install autoenv
