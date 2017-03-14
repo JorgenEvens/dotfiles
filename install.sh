@@ -77,6 +77,8 @@ if [ `uname` = "Linux" ]; then
     # Disable alt-space shortcut to allow alt usage in tmux
     gsettings set org.gnome.desktop.wm.keybindings activate-window-menu '[]'
 
+    # Install git-extras, ubuntu version is outdated
+    curl -sSL http://git.io/git-extras-setup | sudo bash /dev/stdin
 
 fi
 
