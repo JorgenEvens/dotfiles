@@ -80,6 +80,9 @@ if [ `uname` = "Linux" ]; then
     # Install git-extras, ubuntu version is outdated
     curl -sSL http://git.io/git-extras-setup | sudo bash /dev/stdin
 
+    # Enable tmux clipboard
+    sudo apt-get install xclip
+
 fi
 
 # Install autoenv
