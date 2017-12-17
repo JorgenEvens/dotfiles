@@ -1,3 +1,0 @@
-#!/bin/sh
-
-ssh -t dokku@dokku.dev.bubobox.com "$@"

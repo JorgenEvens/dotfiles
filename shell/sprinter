@@ -1,5 +1,13 @@
 #!/bin/sh
 
+# Sprint helper functions for BuboBox and Ambassify developers
+# Uses https://www.npmjs.com/package/sprinter
+# npm install -g sprinter
+#
+# Using biweekly sprints, for week 1, 3, 5, ... of the year
+
+date=/bin/date
+
 EOL="
 "
 
@@ -10,19 +18,29 @@ EOL="
 # `
 # export SPRINTER_REPOS=${SPRINTER_REPOS:0:-1}
 
+function __currentSprint {
+    local YEAR
+    local WEEK
+    YEAR=`$date +%Y`
+    WEEK=`$date +%V`
+    WEEK=$((WEEK - ((WEEK - 1) % 2)))
+
+    echo "sprint-${YEAR}-${WEEK}"
+}
+
 function sprint() {
-	sprinter listIssues --milestone=sprint-$(date +"%Y-%V")
+	sprinter listIssues --milestone=$(__currentSprint)
 }
 
 function mysprint() {
-	sprinter listIssues --milestone=sprint-$(date +"%Y-%V") --assignee="$GH_USERNAME"
+	sprinter listIssues --milestone=$(__currentSprint) --assignee="$GH_USERNAME"
 }
 
 function watchsprint() {
 	INTERVAL=30
 	test ! -z $1 && INTERVAL=$1
 	if [ "$MILESTONE" != "no" ]; then
-		test -z "$MILESTONE" && MILESTONE=sprint-$(date +"%Y-%V")
+		test -z "$MILESTONE" && MILESTONE=$(__currentSprint)
 		MILESTONE="--milestone=$MILESTONE"
 	else
 		MILESTONE=""
@@ -35,42 +53,47 @@ function devsprint() {
 }
 
 gensprint() {
-	local COUNT
-	local DAYOFWEEK
-	local DUE_SHIFT
-	local WEEK_SHIFT
-	local DATE
-	local WEEK
-	local YEAR
+    local COUNT
+    local DAYOFWEEK
+    local DUE_SHIFT
+    local WEEK_SHIFT
+    local DATE
+    local WEEK
+    local YEAR
 
-	COUNT="$1"
-	DAYOFWEEK=$((`date +%u` - 1))
-	test -z "$COUNT" && COUNT=5 # How many weeks to generate
+    COUNT="$1"
+    DAYOFWEEK=$((`$date +%u` - 1))
+    test -z "$COUNT" && COUNT=5 # How many weeks to generate
 
-	for i in $(seq 0 $COUNT); do
-		# Set milestone due date on monday
-		DUE_SHIFT="$(((i+1)*7 - DAYOFWEEK))"
-		WEEK_SHIFT="$((i*7 - DAYOFWEEK))"
+    for i in $(seq -1 $COUNT); do
+        # Set milestone due date on monday
+        DUE_SHIFT="$(((i+1)*7 - DAYOFWEEK))"
+        WEEK_SHIFT="$((i*7 - DAYOFWEEK))"
 
-		# If the today's date should be shifted backwards for this weeks monday.
-		OPERATOR="+"
-		test $DUE_SHIFT -lt 0 && OPERATOR=""
-		DUE_SHIFT="${OPERATOR}${DUE_SHIFT}d"
+        # If the today's date should be shifted backwards for this weeks monday.
+        OPERATOR="+"
+        test $DUE_SHIFT -lt 0 && OPERATOR=""
+        DUE_SHIFT="${OPERATOR}${DUE_SHIFT}d"
 
-		OPERATOR="+"
-		test $WEEK_SHIFT -lt 0 && OPERATOR=""
-		WEEK_SHIFT="${OPERATOR}${WEEK_SHIFT}d"
+        OPERATOR="+"
+        test $WEEK_SHIFT -lt 0 && OPERATOR=""
+        WEEK_SHIFT="${OPERATOR}${WEEK_SHIFT}d"
 
-		# Generate sprint name
-		DATE="`date -v${DUE_SHIFT} '+%b %d, %Y'`"
-		YEAR=`date -v${WEEK_SHIFT} +%Y`
-		WEEK=`date -v${WEEK_SHIFT} +%V`
-		echo -n "sprint-${YEAR}-${WEEK} => "
-		sprinter createMilestones "sprint-${YEAR}-${WEEK}" "" "${DATE}" 2>&1 | grep error > /dev/null
-		if [ $? -eq 1 ]; then
-			echo OK
-		else
-			echo ERROR
-		fi
-	done
+        # Generate sprint name
+        DATE="`$date -v${DUE_SHIFT} '+%b %d, %Y'`"
+        YEAR=`$date -v${WEEK_SHIFT} +%Y`
+        WEEK=`$date -v${WEEK_SHIFT} +%V`
+        echo -n "sprint-${YEAR}-${WEEK} => $DATE => "
+        sprinter createMilestones "sprint-${YEAR}-${WEEK}" "" "${DATE}" 2>&1 | grep error > /dev/null
+        if [ $? -eq 1 ]; then
+            echo OK
+        else
+            sprinter updateMilestones "sprint-${YEAR}-${WEEK}" "sprint-${YEAR}-${WEEK}" "${DATE}" 2>&1 | grep error > /dev/null
+            if [ $? -eq 1 ]; then
+                echo OK
+            else
+                echo ERROR
+            fi
+        fi
+    done
 }

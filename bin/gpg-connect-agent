@@ -4,17 +4,18 @@ GPG_ENV=$HOME/.gnupg/gpg-agent.env
 
 if [ ! -f "${GPG_ENV}" ]; then
     >&2 echo "GPG_ENV not found"
-    echo "GPG_ENV not found" >> /tmp/gpg-agent
     exit 1
 fi
 
 if [ ! -S "${GPG_AGENT_INFO//:*/}" ]; then
     >&2 echo "GPG_AGENT_INFO does not point to a socket"
+    rm "${GPG_ENV}"
     exit 2
 fi
 
 pgrep "gpg-agent" > /dev/null
 if [ ! $? -eq 0 ]; then
     >&2 echo "gpg-agent not running"
+    rm "${GPG_ENV}"
     exit 3
 fi

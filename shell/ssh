@@ -1,0 +1,5 @@
+#!/bin/sh
+
+if [ "`uname`" = "Darwin" ]; then
+    ssh-add -A > /dev/null 2> /dev/null
+fi

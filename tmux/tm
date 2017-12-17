@@ -15,9 +15,7 @@ follow_link() {
     local SCRIPT_PATH
     local REL_DIR
     SCRIPT_PATH="$1"
-    while [ -h "$SCRIPT_PATH" ]; do
-        REL_DIR="$(follow_link `dirname $SCRIPT_PATH`)"
-        SCRIPT_PATH=`readlink "$SCRIPT_PATH"`;
+    while [ -h "$SCRIPT_PATH" ]; do REL_DIR="$(follow_link `dirname $SCRIPT_PATH`)" SCRIPT_PATH=`readlink "$SCRIPT_PATH"`;
         SCRIPT_PATH=`realpath $SCRIPT_PATH $REL_DIR`
     done
 
@@ -63,6 +61,7 @@ launch_unnamed_tmux() {
 SCRIPT_PATH=`follow_link $0`
 SESSION_PREFIX="unnamed"
 HAD_SESSION=0
+export DOT_DIR=`dirname $(dirname $SCRIPT_PATH)`
 
 # present menu for user to choose which workspace to open
 while true; do
@@ -73,7 +72,8 @@ while true; do
     PS3="Please choose your session: "
     echo "Options"
     echo "------------------"
-    echo "b) attach bubobox"
+    echo "ssh) start ssh session"
+    echo "clear) clear current view"
     echo "n) new session"
     echo "t) top of screen"
     echo "z) zsh"
@@ -87,13 +87,14 @@ while true; do
             "")
                 case "$REPLY" in
                     "") launch_unnamed_tmux;;
-                    "b") `dirname $SCRIPT_PATH`/tmux-bubobox;;
                     "n") launch_unnamed_tmux;;
                     "t") `dirname $SCRIPT_PATH`/tmux-top-of-screen;;
                     "z") launch_zsh;;
                     "q") exit;;
                     "quit") exit;;
+                    "clear") clear;;
                     "cd "*) launch_go2shell "$REPLY" ;;
+                    "ssh "*) sh --login -c "$REPLY";;
                     *) launch_named_tmux "$REPLY"
                 esac
                 ;;
@@ -102,6 +103,7 @@ while true; do
                 ;;
         esac
         break
+        exec $0
     done
 
     if [ ! $? -eq 0 ]; then

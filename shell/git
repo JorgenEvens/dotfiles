@@ -2,6 +2,8 @@
 
 # Load hub ( https://hub.github.com )
 eval "$(hub alias -s)"
+fpath=($DIR/zsh/completions $fpath)
+autoload -U compinit && compinit
 
 alias gpr="git-pull-request"
 git-pull-request() {

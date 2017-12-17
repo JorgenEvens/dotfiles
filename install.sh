@@ -48,7 +48,8 @@ git clone git://github.com/kennethreitz/autoenv.git ~/.autoenv
 
 # Setup NeoVIM
 mkdir -p ${XDG_CONFIG_HOME:=$HOME/.config}
-ln -s ~/.vim $XDG_CONFIG_HOME/nvim
+ln -sf ~/.vim $XDG_CONFIG_HOME/nvim
+ln -sf ~/.vimrc $XDG_CONFIG_HOME/nvim/init.vim
 
 # Install VI plugins
 cd `dirname $SCRIPT_PATH`
@@ -58,4 +59,9 @@ vim +PluginInstall +qa
 # Configure GIT
 git config --global user.email "jorgen@evens.eu"
 git config --global user.name "Jorgen Evens"
-git config --global commit.sign true
+git config --global commit.gpgsign true
+git config --global core.excludesfile "$DIR/.gitignore_global"
+
+# Hub setup
+# autocompletion
+curl https://raw.githubusercontent.com/github/hub/master/etc/hub.zsh_completion > $DIR/zsh/completions/_hub

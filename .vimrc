@@ -156,7 +156,7 @@ nnoremap <Home> ^
 nnoremap <space> za
 
 " Silver Searcher
-nmap <leader>ag :Ag<space>-u<space>""<Left>
+nmap <leader>ag :Ag<space>""<Left>
 " }}}
 " File changes {{{
 " check file change every 4 seconds ('CursorHold') and reload the buffer upon detecting change
@@ -188,6 +188,14 @@ let g:airline_powerline_fonts = 1
 let g:Powerline_symbols = 'fancy'
 let g:airline_theme='luna'
 let g:airline#extensions#tabline#enabled = 1
+let g:tmuxline_preset = {
+    \'a': ['#S'],
+    \'y': ['%Y-%m-%d', '%H:%M'],
+    \'z': '#(osascript $DOT_DIR/applescripts/current_spotify_song.scpt)',
+    \'win': ['#I', '#W'],
+    \'cwin': ['#I', '#W'],
+    \'options': {
+        \'status-justify': 'left'}}
 " }}}
 " EditorConfig {{{
 " Configure editorconfig ( See recommended options https://github.com/editorconfig/editorconfig-vim );

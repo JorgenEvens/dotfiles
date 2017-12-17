@@ -1,6 +1,14 @@
 #!/bin/sh
 
 # alias vim="stty stop '' -ixoff ; vim"
-alias vi="vim"
+open_vim() {
+    if [ $# -lt 1 ]; then
+        vim .
+    else
+        vim "$@"
+    fi
+}
+alias vi="open_vim"
+alias v="open_vim"
 # `Frozing' tty, so after any command terminal settings will be restored
 # ttyctl -f

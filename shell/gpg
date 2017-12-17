@@ -1,3 +1,4 @@
 #!/bin/sh
 
-eval $(gpg-agent --daemon)
+export GPG_TTY=$(tty)
+# gpgconf --launch gpg-agent
