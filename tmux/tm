@@ -24,6 +24,12 @@ follow_link() {
     echo $SCRIPT_PATH
 }
 
+update() {
+    sudo apt update && \
+    sudo apt upgrade && \
+    sudo apt dist-upgrade
+}
+
 launch_zsh() {
     HAD_SESSION=1
     zsh --login
@@ -67,6 +73,7 @@ HAD_SESSION=0
 # present menu for user to choose which workspace to open
 # while true; do
     # TMOUT=5 # Timeout after 5 seconds and open a new tmux session
+    clear
     SESSIONS=($(tmux list-sessions -F '#S'))
     NR_SESSIONS=${#SESSIONS[@]}
     test ${#SESSIONS} -lt 1 && SESSIONS=("")
@@ -76,9 +83,11 @@ HAD_SESSION=0
     echo "b) attach bubobox"
     echo "n) new session"
     echo "t) top of screen"
-    echo "ssh) ssh somewhere"
     echo "z) zsh"
     echo "q) quit"
+    echo "ssh) ssh somewhere"
+    echo "update) upgrade system"
+    echo "quit) quit"
     echo ""
     echo "Available sessions"
     echo "------------------"
@@ -92,10 +101,12 @@ HAD_SESSION=0
                     "n") launch_unnamed_tmux;;
                     "t") `dirname $SCRIPT_PATH`/tmux-top-of-screen;;
                     "z") launch_zsh;;
+                    "u") update;;
                     "q") exit;;
                     "quit") exit;;
                     "cd "*) launch_go2shell "$REPLY" ;;
                     "ssh "*) $REPLY;;
+                    "update") $REPLY;;
                     *) launch_named_tmux "$REPLY"
                 esac
                 ;;
