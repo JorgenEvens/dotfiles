@@ -263,3 +263,10 @@ set directory=/tmp/.vim/swp
 " Custom Tabs {{{
 filetype plugin on
 " }}}
+" Allow per project vim config {{{
+set exrc
+set secure
+" }}}
+" Allow per file vim config {{{
+set modeline
+" }}}
