@@ -33,6 +33,7 @@ alias gpr="git pull-request -o"
 alias gpu="git push -u"
 alias gpo="git push -u origin"
 alias grum="git rebase upstream/master"
+alias hb="hub browse"
 
 # Fix tmux colors
 alias tmux="tmux -2"
