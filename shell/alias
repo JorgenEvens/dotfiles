@@ -42,3 +42,7 @@ alias tmux="tmux -2"
 alias watch="watch --color"
 
 alias update="sudo apt-get update && sudo apt-get upgrade && sudo apt-get dist-upgrade"
+
+alias dc="docker-compose"
+alias pbcopy="xclip -sel clip"
+alias enc64="base64 -w0"
