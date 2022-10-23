@@ -47,7 +47,7 @@ ZSH_THEME="agnoster"
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(git osx brew go golang heroku npm sudo encode64 autoenv gpg-agent)
+plugins=(git macos brew golang heroku npm sudo encode64 autoenv gpg-agent zsh-completions)
 
 source $ZSH/oh-my-zsh.sh
 
