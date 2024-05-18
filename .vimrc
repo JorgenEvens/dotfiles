@@ -14,7 +14,6 @@ Plugin 'editorconfig/editorconfig-vim'
 Plugin 'scrooloose/nerdtree'
 Plugin 'Xuyuanp/nerdtree-git-plugin'
 Plugin 'edkolev/tmuxline.vim'
-Plugin 'ervandew/supertab'
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
 Plugin 'isRuslan/vim-es6'
@@ -32,7 +31,6 @@ Plugin 'ekalinin/Dockerfile.vim'
 Plugin 'aperezdc/vim-template'
 Plugin 'MarcWeber/vim-addon-mw-utils'
 Plugin 'tomtom/tlib_vim'
-Plugin 'garbas/vim-snipmate'
 Plugin 'scrooloose/nerdcommenter'
 Plugin 'rking/ag.vim'
 Plugin 'plasticboy/vim-markdown'
@@ -44,6 +42,8 @@ Plugin 'Valloric/MatchTagAlways'
 Plugin '1995eaton/vim-better-javascript-completion'
 Plugin 'neomake/neomake'
 Plugin 'jaawerth/nrun.vim'
+Plugin 'tveskag/nvim-blame-line'
+Plugin 'neoclide/coc.nvim'
 call vundle#end()
 filetype on
 filetype plugin on
@@ -269,4 +269,13 @@ set secure
 " }}}
 " Allow per file vim config {{{
 set modeline
+" }}}
+" GitBlameLine {{{
+let g:blameLineGitFormat = '   -- %an | %s'
+autocmd BufEnter * EnableBlameLine
+" }}}
+" coc.nvim {{{
+inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 " }}}
