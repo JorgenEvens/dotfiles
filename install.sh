@@ -46,27 +46,51 @@ symlink vim .vim
 symlink bin .bin
 
 if [ `uname` = "Linux" ]; then
-    # Update to latest git
-    sudo add-apt-repository -yu ppa:git-core/ppa
-    sudo apt-get install git
+    if [ -f /etc/os-release ]; then
+        LINUX_VERSION=$(. /etc/os-release; echo $ID)
+    fi
+
+    if [ $LINUX_VERSION = "debian" ] || [ $LINUX_VERSION = "ubuntu" ]; then
+        # Update to latest git
+        sudo add-apt-repository -yu ppa:git-core/ppa
+        sudo apt-get install git
+
+        # Install latest tmux
+        sudo add-apt-repository -yu ppa:pi-rho/dev
+        sudo apt-get install tmux-next
+        sudo update-alternatives --install /usr/bin/tmux tmux /usr/bin/tmux-next 60
+
+        # Install neovim
+        sudo add-apt-repository -yu ppa:neovim-ppa/stable
+        sudo apt-get install neovim python-dev python-pip
+        sudo pip install neovim
+
+        # Install git-extras, ubuntu version is outdated
+        curl -sSL http://git.io/git-extras-setup | sudo bash /dev/stdin
+
+        # Enable tmux clipboard
+        sudo apt-get install xclip
+    fi
+
+    if [ $LINUX_VERSION = "fedora" ]; then
+        sudo dnf install \
+            git \
+            git-extras \
+            neovim \
+            python3-neovim \
+            tmux \
+            xclip
+    fi
+
+    if [ -x $(command -v gsettings) ]; then
+        # Disable alt-space shortcut to allow alt usage in tmux
+        gsettings set org.gnome.desktop.wm.keybindings activate-window-menu '[]'
+    fi
 
     # Install hub
-    curl -L https://github.com/github/hub/releases/download/v2.2.9/hub-linux-amd64-2.2.9.tgz | tar -xz -C /tmp
+    HUB_VERSION="2.14.2"
+    curl -L https://github.com/github/hub/releases/download/v${HUB_VERSION}/hub-linux-amd64-${HUB_VERSION}.tgz | tar -xz -C /tmp
     sudo /tmp/hub-linux-amd64-*/install
-
-    # Install latest tmux
-    sudo add-apt-repository -yu ppa:pi-rho/dev
-    sudo apt-get install tmux-next
-    sudo update-alternatives --install /usr/bin/tmux tmux /usr/bin/tmux-next 60
-
-    # Install neovim
-    sudo add-apt-repository -yu ppa:neovim-ppa/stable
-    sudo apt-get install neovim python-dev python-pip
-    sudo pip install neovim
-
-    sudo update-alternatives --install /usr/bin/vi vi /usr/bin/nvim 60
-    sudo update-alternatives --install /usr/bin/vim vim /usr/bin/nvim 60
-    sudo update-alternatives --install /usr/bin/editor editor /usr/bin/nvim 60
 
     # Install patched powerline fonts
     mkdir -p ~/.fonts/
@@ -74,19 +98,13 @@ if [ `uname` = "Linux" ]; then
     cp -a /tmp/powerline-fonts/SourceCodePro/* ~/.fonts/
     sudo fc-cache -f -v
 
-    # Disable alt-space shortcut to allow alt usage in tmux
-    gsettings set org.gnome.desktop.wm.keybindings activate-window-menu '[]'
-
-    # Install git-extras, ubuntu version is outdated
-    curl -sSL http://git.io/git-extras-setup | sudo bash /dev/stdin
-
-    # Enable tmux clipboard
-    sudo apt-get install xclip
-
+    sudo update-alternatives --install /usr/bin/vi vi /usr/bin/nvim 60
+    sudo update-alternatives --install /usr/bin/vim vim /usr/bin/nvim 60
+    sudo update-alternatives --install /usr/bin/editor editor /usr/bin/nvim 60
 fi
 
 # Install autoenv
-git clone git://github.com/kennethreitz/autoenv.git ~/.autoenv
+git clone git@github.com:hyperupcall/autoenv.git ~/.autoenv
 
 # Install Tmux Plugin Manager
 mkdir -p ${DIR}/tmux/plugins
@@ -105,3 +123,6 @@ vim +PluginInstall +qa
 git config --global user.email "jorgen@evens.eu"
 git config --global user.name "Jorgen Evens"
 git config --global commit.gpgsign true
+
+# Install oh-my-zsh
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
